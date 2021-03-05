@@ -1,0 +1,8 @@
+@import "./global.css";
+@import "_root.css";
+
+.frame-nav {
+  width: var(--frame-nav-width);
+  height: 100vh;
+  background-color: aqua;
+}
