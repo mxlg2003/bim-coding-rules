@@ -4,5 +4,36 @@
 .frame-nav {
   width: var(--frame-nav-width);
   height: 100vh;
-  background-color: aqua;
+  background-color: var(--frame-nav-background-color);
+}
+
+
+.systemLogo {
+    width: calc(var(--frame-nav-width) - 8px);
+    max-height: 20vh;
+    margin: 4px;
+}
+.appMenu {
+  width: var(--frame-nav-width);
+}
+.appMenu svg {
+  width: var(--frame-nav-icon-width);
+  height: var(--frame-nav-icon-width);
+}
+.appMenu .ant-menu-item {
+  padding: 0 calc(50% -  var(--frame-nav-icon-width) / 2);
+  height: calc(var(--frame-nav-icon-width) * 2) ;
+}
+.appMenu .ant-menu-item .ant-menu-item-icon {
+  line-height: calc(var(--frame-nav-icon-width) * 2.5);
+}
+/* 左侧应用布局 */
+.frame-nav-grid {
+  display: grid;
+  grid-template-columns:100%;
+  grid-template-rows: calc(var(--frame-nav-width) + 8px) auto calc(var(--frame-nav-icon-width) * 2.5 * 3) calc(var(--frame-nav-icon-width) /2);
+  grid-template-areas:
+  "systemLogo"
+  "appMenu"
+  "navTools";
 }

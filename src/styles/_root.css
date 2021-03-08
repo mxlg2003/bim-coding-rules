@@ -1,3 +1,5 @@
 :root{
     --frame-nav-width: 64px; 
+    --frame-nav-background-color: #001529;
+    --frame-nav-icon-width: 24px
 }
