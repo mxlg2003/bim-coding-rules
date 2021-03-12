@@ -1,0 +1,72 @@
+@import '~antd/dist/antd.less';
+@import "./global.css";
+@import "_root";
+
+
+.frame-nav {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  width: @frame-nav-width;
+  height: 100vh;
+  background-color: @frame-nav-background-color;
+}
+
+.systemLogo {
+  width: @frame-nav-width - 8px;
+  max-height: 20vh;
+  margin: 4px;
+}
+
+.appMenu {
+  width: @frame-nav-width!important;
+}
+
+.appMenu svg {
+  width: @frame-nav-icon-width;
+  height: @frame-nav-icon-width;
+}
+
+.appMenu .ant-menu-item {
+  padding: 8px calc(50% - 24px / 2)!important;
+  height: @frame-nav-icon-width * 2!important;
+  line-height: @frame-nav-icon-width * 2.5;
+}
+
+.appMenu .ant-menu-item .ant-menu-item-icon {
+  line-height: @frame-nav-icon-width * 2.5;
+}
+
+.appMenu .NavAvatar .ant-menu-submenu-title {
+  padding: 0 @frame-nav-width / 4;
+}
+
+/* 左侧应用布局 */
+.frame-nav-grid {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: @frame-nav-width + 8px auto @frame-nav-icon-width * 6 @frame-nav-icon-width / 3;
+  grid-template-areas:
+    "systemLogo"
+    "appMenu"
+    "navTools";
+}
+
+/* 左侧应用布局结束 */
+
+
+.layout-content {
+  padding-left: @frame-nav-width;
+  min-height: 100vh!important;
+}
+
+
+.app-name {
+  padding: 0 24px;
+  margin: 12px 0 24px;
+  font-size: 1rem;
+  height: 1.5rem;
+  line-height: 2rem;
+  font-weight: bold;
+}

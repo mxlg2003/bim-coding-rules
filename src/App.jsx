@@ -1,10 +1,12 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Layout } from "antd";
 import {
   CopyrightCircleOutlined
 } from "@ant-design/icons";
 import FrameNav from "./components/FrameNav";
+import SystemMenu from "./codingRules/SystemMenu";
+import CodingRulesManagement from "./codingRules/CodingRulesManagement";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -13,9 +15,18 @@ function App() {
     <>
       <FrameNav />
       <Layout className="layout-content">
-        <Sider theme="light">left sidebar</Sider>
+        <Sider theme="light" style={{borderRight:"1px #f0f2f5 solid"}}>
+          <div className="app-name">编码规则管理</div>
+          <SystemMenu />
+        </Sider>
         <Layout>
-          <Content>main content</Content>
+          <Content>
+            <Routes>
+            
+               <Route path="/rules" element={<CodingRulesManagement />}></Route>
+              {/* <Route path="/moments" element={<Moments />}></Route> */}
+            </Routes>
+          </Content>
           <Footer style={{ textAlign: "center" }}>
             Copyright <CopyrightCircleOutlined /> 2020 安徽贝慕信息科技出品
           </Footer>
