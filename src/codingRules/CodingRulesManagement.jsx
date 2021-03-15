@@ -1,63 +1,195 @@
-import React from "react";
-import {Typography, PageHeader,Button, Descriptions } from "antd";
-import { PageContainer } from '@ant-design/pro-layout';
+import React from 'react';
+import {
+	Typography,
+	PageHeader,
+	Button,
+	Descriptions,
+	Tooltip,
+	Input,
+} from 'antd';
+import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
+import ProForm, {
+	ModalForm,
+	DrawerForm,
+	QueryFilter,
+	LightFilter,
+	StepsForm,
+	ProFormText,
+	ProFormDateRangePicker,
+	ProFormSelect,
+	ProFormRadio,
+} from '@ant-design/pro-form';
+import {
+	PlusOutlined,
+	EllipsisOutlined,
+	QuestionCircleOutlined,
+	SearchOutlined,
+} from '@ant-design/icons';
+import ProTable, {TableDropdown} from '@ant-design/pro-table';
 
 const {Title, Paragraph} = Typography;
 
+const valueEnum = {
+	0: 'close',
+	1: 'running',
+	2: 'online',
+	3: 'error',
+};
+const tableListDataSource = [];
+for (let i = 0; i < 5; i += 1) {
+	tableListDataSource.push({
+		key: i,
+		name: 'AppName',
+		appname: '应用名称',
+		containers: '',
+		status: '启用',
+		createdAt: '',
+		money: Math.floor(Math.random() * 2000) * i,
+		progress: Math.ceil(Math.random() * 100) + 1,
+		memo: i % 2 === 1 ? '很长很长很长很长很长很长很长的文字要展示但是要留下尾巴' : '简短备注文案',
+	});
+}
+const columns = [
+	{
+		title: '排序',
+		dataIndex: 'index',
+		valueType: 'index',
+		width: 48,
+	},
+	{
+		title: '归属应用',
+		dataIndex: 'appname',
+	},
+	{
+		title: '标识',
+		dataIndex: 'marking',
+	},
+	{
+		title: '状态',
+		dataIndex: 'status',
+		valueEnum: {
+			all: { text: '全部', status: 'Default' },
+			open: {
+				text: '已停用',
+				status: 'Error',
+			},
+			closed: {
+				text: '已启用',
+				status: 'Success',
+			}
+
+		},
+	},
+	{
+		title: '是否包含日期',
+		dataIndex: 'memo',
+
+	},
+	{
+		title: (<>
+			日期格式
+			<Tooltip placement="top" title="这是一段描述">
+				<QuestionCircleOutlined style={{marginLeft: 4}}/>
+			</Tooltip>
+		</>),
+		dataIndex: 'createdAt',
+		search: false,
+	},
+	{
+		title: '是否固定位数',
+		dataIndex: 'memo',
+		search: false,
+	},
+	{
+		title: '固定位数长度',
+		dataIndex: 'memo',
+		search: false,
+	},
+	{
+		title: '规则模板',
+		dataIndex: 'memo',
+		search: false,
+	},
+	{
+		title: '备注',
+		dataIndex: 'memo',
+		search: false,
+	},
+	{
+		title: '操作',
+		key: 'option',
+		valueType: 'option',
+		render: () => [
+			<Button type="link">编辑</Button>,
+			<Button type="link">启用</Button>,
+		],
+	},
+];
 
 const CodingRulesManagement = () => {
-    return (
-        // <PageHeader
-        //     className="site-page-header"
-        //     style={{backgroundColor: "#fff", margin: "8px"}}
-        //     title="编码规则管理"
-        //     subTitle="这是副标题"
-        // >
-        //     <Paragraph>
-        //         规则模板说明：AntV 是蚂蚁金服全新一代数据可视化解决方案，致力于提供一套简单方便、专业可靠、不限可能的数据可视化最佳实践。得益于丰富的业务场景和用户需求挑战，AntV 经历多年积累与不断打磨，已支撑整个阿里集团内外 20000+ 业务系统，通过了日均千万级 UV 产品的严苛考验。
-        //         我们正在基础图表，图分析，图编辑，地理空间可视化，智能可视化等各个可视化的领域耕耘，欢迎同路人一起前行。
-        //     </Paragraph>
-        // </PageHeader>
-        <PageContainer
+	return (
+			<PageContainer
 
-            header={{
-                title: '页面标题',
-                breadcrumb: {
-                    routes: [
-                        {
-                            path: '',
-                            breadcrumbName: '一级页面',
-                        },
-                        {
-                            path: '',
-                            breadcrumbName: '二级页面',
-                        },
-                        {
-                            path: '',
-                            breadcrumbName: '当前页面',
-                        },
-                    ],
-                },
-                extra: [
-                    <Button key="1">次要按钮</Button>,
-                    <Button key="2">次要按钮</Button>,
-                    <Button key="3" type="primary">
-                        主要按钮
-                    </Button>,
+					header={{
+						title: '编码规则管理',
+						breadcrumb: {
+							routes: [
+								{
+									path: '',
+									breadcrumbName: '编码规则',
+								},
+								{
+									path: '',
+									breadcrumbName: '当前页面',
+								},
+							],
+						},
+						extra: [
+							<Button key="1">次要按钮</Button>,
+							<Button key="2">次要按钮</Button>,
+							<Button key="3" type="primary">
+								主要按钮
+							</Button>,
 
-                ],
-                style:{backgroundColor:'#fff'}
+						],
+						footer: [
+							<Paragraph style={{paddingBottom: '1em'}}>
+								规则模板说明：C:代码，O：公司，P：项目，D：日期，S：流水号
+							</Paragraph>],
+					}}
 
-            }}
 
-           
-        >
-            <ProCard style={{ width: 300 }}>内容</ProCard>
+			>
+				<ProTable columns={columns} request={(params, sorter, filter) => {
+					// 表单搜索项会从 params 传入，传递给后端接口。
+					console.log(params, sorter, filter);
+					return Promise.resolve({
+						data: tableListDataSource,
+						success: true,
+					});
+				}} rowKey="key" pagination={{
+					showQuickJumper: true,
+				}} search={{
+					defaultCollapsed: true,
+					span: 4,
+					labelWidth: 'auto',
+				}} dateFormatter="string" toolbar={{
+					title: '编码规则',
+					tooltip: '这是一个标题提示',
+				}} toolBarRender={() => [
 
-        </PageContainer>
+					<Button key="show">导入</Button>,
+					<Button type="primary" key="primary">
+						新建
+					</Button>,
 
-);
+				]}/>
+
+
+			</PageContainer>
+
+	);
 };
 
 export default CodingRulesManagement;

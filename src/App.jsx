@@ -28,7 +28,7 @@ function App() {
             </Routes>
           </Content>
           <Footer style={{ textAlign: "center" }}>
-            Copyright <CopyrightCircleOutlined /> 2020 安徽贝慕信息科技出品
+            Copyright <CopyrightCircleOutlined /> 2021 安徽贝慕信息科技出品
           </Footer>
         </Layout>
       </Layout>
