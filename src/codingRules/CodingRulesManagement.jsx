@@ -60,6 +60,18 @@ const columns = [
 	{
 		title: '归属应用',
 		dataIndex: 'appname',
+		valueEnum: {
+			all: { text: '全部', status: 'Default' },
+			open: {
+				text: '应用一',
+				status: 'Error',
+			},
+			closed: {
+				text: '应用二',
+				status: 'Success',
+			}
+
+		},
 	},
 	{
 		title: '标识',
