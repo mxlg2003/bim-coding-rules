@@ -1,9 +1,7 @@
 import React from "react";
-import { Menu, Button } from "antd";
+import { Menu } from "antd";
 import {
   AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   PieChartOutlined,
   DesktopOutlined,
   ContainerOutlined,

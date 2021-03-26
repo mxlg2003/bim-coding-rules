@@ -1,13 +1,6 @@
 import React from "react";
-import { Menu, Button, Avatar } from "antd";
+import { Menu,  Avatar } from "antd";
 import {
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
   QuestionCircleOutlined,
   SlidersOutlined,
   UserOutlined,

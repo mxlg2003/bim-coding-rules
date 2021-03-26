@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
 	Typography,
 	PageHeader,
@@ -6,6 +6,7 @@ import {
 	Descriptions,
 	Tooltip,
 	Input,
+	Modal, message,
 } from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
@@ -27,8 +28,20 @@ import {
 	SearchOutlined,
 } from '@ant-design/icons';
 import ProTable, {TableDropdown} from '@ant-design/pro-table';
+import RulesForm from './componets/RulesForm';
 
 const {Title, Paragraph} = Typography;
+
+
+
+const waitTime = (time = 100) => {
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			resolve(true);
+		}, time);
+	});
+};
+
 
 const valueEnum = {
 	0: 'close',
@@ -36,17 +49,29 @@ const valueEnum = {
 	2: 'online',
 	3: 'error',
 };
+
+const resetBasisEnum = {
+	0: '年',
+	1: '月',
+	2: '日',
+	3: '不重置',
+};
 const tableListDataSource = [];
 for (let i = 0; i < 5; i += 1) {
 	tableListDataSource.push({
 		key: i,
-		name: 'AppName',
-		appname: '应用名称',
-		containers: '',
+		ruleName: '规则名称',
+		appName: '应用名称',
+		marking: 'Lab',
+		prefix: '',
 		status: '启用',
-		createdAt: '',
-		money: Math.floor(Math.random() * 2000) * i,
-		progress: Math.ceil(Math.random() * 100) + 1,
+		includeDate: i % 2 === 1 ? '是' : '否',
+		dateFormat: '',
+		fixedDigit: i % 2 === 1 ? '是' : '否',
+		fixedDigitLength: 0,
+		ruleTemplate: '$C$-$D$-$S$',
+		resetBasis: resetBasisEnum[3],
+		ruleTemplateDescription: '',
 		memo: i % 2 === 1 ? '很长很长很长很长很长很长很长的文字要展示但是要留下尾巴' : '简短备注文案',
 	});
 }
@@ -59,9 +84,9 @@ const columns = [
 	},
 	{
 		title: '归属应用',
-		dataIndex: 'appname',
+		dataIndex: 'appName',
 		valueEnum: {
-			all: { text: '全部', status: 'Default' },
+			all: {text: '全部', status: 'Default'},
 			open: {
 				text: '应用一',
 				status: 'Error',
@@ -69,7 +94,7 @@ const columns = [
 			closed: {
 				text: '应用二',
 				status: 'Success',
-			}
+			},
 
 		},
 	},
@@ -81,7 +106,7 @@ const columns = [
 		title: '状态',
 		dataIndex: 'status',
 		valueEnum: {
-			all: { text: '全部', status: 'Default' },
+			all: {text: '全部', status: 'Default'},
 			open: {
 				text: '已停用',
 				status: 'Error',
@@ -89,38 +114,54 @@ const columns = [
 			closed: {
 				text: '已启用',
 				status: 'Success',
-			}
+			},
 
 		},
 	},
 	{
-		title: '是否包含日期',
-		dataIndex: 'memo',
+		title: '包含日期',
+		dataIndex: 'includeDate',
+		valueEnum: {
+			all: {text: '全部', status: 'Default'},
+			open: {
+				text: '是',
+				status: 'Error',
+			},
+			closed: {
+				text: '否',
+				status: 'Success',
+			},
 
+		},
 	},
 	{
 		title: (<>
 			日期格式
-			<Tooltip placement="top" title="这是一段描述">
+			<Tooltip placement="top" title="yyyy:年,MM:月,:dd:日">
 				<QuestionCircleOutlined style={{marginLeft: 4}}/>
 			</Tooltip>
 		</>),
-		dataIndex: 'createdAt',
+		dataIndex: 'dateFormat',
 		search: false,
 	},
 	{
 		title: '是否固定位数',
-		dataIndex: 'memo',
+		dataIndex: 'fixedDigit',
 		search: false,
 	},
 	{
 		title: '固定位数长度',
-		dataIndex: 'memo',
+		dataIndex: 'fixedDigitLength',
 		search: false,
 	},
 	{
-		title: '规则模板',
-		dataIndex: 'memo',
+		title: (<>
+			规则模板
+			<Tooltip placement="top" title="C:代码，O：公司，P：项目，D：日期，S：流水号">
+				<QuestionCircleOutlined style={{marginLeft: 4}}/>
+			</Tooltip>
+		</>),
+		dataIndex: 'ruleTemplate',
 		search: false,
 	},
 	{
@@ -140,6 +181,7 @@ const columns = [
 ];
 
 const CodingRulesManagement = () => {
+
 	return (
 			<PageContainer
 
@@ -188,20 +230,15 @@ const CodingRulesManagement = () => {
 					labelWidth: 'auto',
 				}} dateFormatter="string" toolbar={{
 					title: '编码规则',
-					tooltip: '这是一个标题提示',
+					// tooltip: '这是一个标题提示',
 				}} toolBarRender={() => [
 
-					<Button key="show">导入</Button>,
-					<Button type="primary" key="primary">
-						新建
-					</Button>,
-
+					// <Button key="show">导入</Button>,
+					<RulesForm />,
 				]}/>
-
-
 			</PageContainer>
 
 	);
-};
+}
 
 export default CodingRulesManagement;
