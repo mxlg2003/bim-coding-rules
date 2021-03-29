@@ -42,9 +42,7 @@ const RulesForm = () => {
 					labelCol={{span: 6}}
 					wrapperCol={{span: 14}}
 					labelAlign='right'
-
 			>
-
 				<ProFormSelect options={[
 					{
 						value: 'chapter1',
@@ -90,7 +88,6 @@ const RulesForm = () => {
 				/>
 
 				<ProFormSwitch name="includeDate" label="是否包含日期" rules={[{ required: true, message: '该项必填!' }]} />
-
 				<ProFormSelect
 						width="md"
 						options={[
@@ -124,11 +121,7 @@ const RulesForm = () => {
 						placeholder="请选择日期格式"
 						defaultValue='1'
 				/>
-
 				<ProFormSwitch name="fixedDigit" label="流水号是否固定位数" rules={[{ required: true, message: '该项必填!' }]}/>
-
-
-
 				<ProFormText
 						name="fixedDigitLength"
 						width="md"
@@ -158,7 +151,6 @@ const RulesForm = () => {
 						label="流水号重置依据"
 						placeholder="请选择"
 				/>
-
 				<ProFormText
 						name="ruleTemplate"
 						width="md"

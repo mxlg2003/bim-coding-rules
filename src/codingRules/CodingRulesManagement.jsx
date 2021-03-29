@@ -6,7 +6,7 @@ import {
 	Descriptions,
 	Tooltip,
 	Input,
-	Modal, message,
+	Modal, message, Tag,
 } from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
@@ -32,8 +32,6 @@ import RulesForm from './componets/RulesForm';
 
 const {Title, Paragraph} = Typography;
 
-
-
 const waitTime = (time = 100) => {
 	return new Promise((resolve) => {
 		setTimeout(() => {
@@ -41,7 +39,6 @@ const waitTime = (time = 100) => {
 		}, time);
 	});
 };
-
 
 const valueEnum = {
 	0: 'close',
@@ -66,7 +63,7 @@ for (let i = 0; i < 5; i += 1) {
 		prefix: '',
 		status: '启用',
 		includeDate: i % 2 === 1 ? '是' : '否',
-		dateFormat: '',
+		dateFormat: 'yyyyMMDD',
 		fixedDigit: i % 2 === 1 ? '是' : '否',
 		fixedDigitLength: 0,
 		ruleTemplate: '$C$-$D$-$S$',
@@ -81,6 +78,10 @@ const columns = [
 		dataIndex: 'index',
 		valueType: 'index',
 		width: 48,
+	},
+	{
+		title: '规则名称',
+		dataIndex: 'ruleName',
 	},
 	{
 		title: '归属应用',
@@ -115,8 +116,19 @@ const columns = [
 				text: '已启用',
 				status: 'Success',
 			},
-
 		},
+		render:
+				tag => {
+					let color = 'green';
+					if (tag === '已停用') {
+						color = 'volcano';
+					}
+					return (
+							<Tag color={color} key={tag}>
+								{tag}
+							</Tag>
+					);
+				},
 	},
 	{
 		title: '包含日期',
@@ -131,8 +143,8 @@ const columns = [
 				text: '否',
 				status: 'Success',
 			},
-
 		},
+
 	},
 	{
 		title: (<>
@@ -145,14 +157,18 @@ const columns = [
 		search: false,
 	},
 	{
-		title: '是否固定位数',
+		title: '固定位数',
 		dataIndex: 'fixedDigit',
 		search: false,
 	},
 	{
-		title: '固定位数长度',
+		title: '固定长度',
 		dataIndex: 'fixedDigitLength',
 		search: false,
+	},
+	{
+		title: '重置依据',
+		dataIndex: 'resetBasis',
 	},
 	{
 		title: (<>
@@ -173,7 +189,9 @@ const columns = [
 		title: '操作',
 		key: 'option',
 		valueType: 'option',
+		width: '100px',
 		render: () => [
+			// <Button type="link">查看</Button>,
 			<Button type="link">编辑</Button>,
 			<Button type="link">启用</Button>,
 		],
@@ -186,12 +204,12 @@ const CodingRulesManagement = () => {
 			<PageContainer
 
 					header={{
-						title: '编码规则管理',
+						title: '默认编码规则管理',
 						breadcrumb: {
 							routes: [
 								{
 									path: '',
-									breadcrumbName: '编码规则',
+									breadcrumbName: '编码规则管理',
 								},
 								{
 									path: '',
@@ -234,11 +252,11 @@ const CodingRulesManagement = () => {
 				}} toolBarRender={() => [
 
 					// <Button key="show">导入</Button>,
-					<RulesForm />,
+					<RulesForm/>,
 				]}/>
 			</PageContainer>
 
 	);
-}
+};
 
 export default CodingRulesManagement;
